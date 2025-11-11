@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "155489455395",
+    "project_id": "everyday-chronicles-91019",
+    "storage_bucket": "everyday-chronicles-91019.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155489455395:android:762829d1da329096aad096",
+        "android_client_info": {
+          "package_name": "com.everydaychronicles.journal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEHB97w81qcKs9dgT_Xp0lrWUUO481JsE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

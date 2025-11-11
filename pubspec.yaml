@@ -1,0 +1,47 @@
+name: everyday_chronicles
+description: A personal journal and life tracking app for everyday memories.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  
+  firebase_core: ^2.32.0
+  firebase_auth: ^4.16.0
+  cloud_firestore: ^4.17.5
+  
+  # UI and Design
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+  
+  # State Management
+  provider: ^6.1.1
+  
+  # Utilities
+  intl: ^0.19.0
+  shared_preferences: ^2.2.2
+  http: ^1.1.0
+  geolocator: ^10.1.0
+  permission_handler: ^11.0.1
+  pedometer: ^4.0.1
+  
+  # Icons
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/emotion_weights.json

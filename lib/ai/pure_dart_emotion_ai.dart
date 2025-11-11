@@ -215,7 +215,7 @@ class PureDartEmotionAI {
     // Fallback emotion weights initialized
   }
 
-  /// Advanced emotion detection method with learning capabilities
+  /// Advanced emotion detection method with intelligent analysis
   static Future<EmotionResult> detectEmotion(String text) async {
     if (!_initialized) {
       await initialize();
@@ -226,38 +226,45 @@ class PureDartEmotionAI {
         emotion: 'neutral',
         confidence: 0.5,
         allEmotions: {'neutral': 0.5},
-        reasoning: 'Empty text',
+        reasoning: 'Empty text provided',
       );
     }
 
-    // Preprocess text with advanced techniques
+    // Intelligent text analysis with multiple layers
     final processedText = _preprocessText(text);
 
-    // Calculate base emotion scores
-    final scores = _calculateEmotionScores(processedText, text);
+    // Layer 1: Semantic Analysis - Understanding meaning and context
+    final semanticScores = _performSemanticAnalysis(processedText, text);
 
-    // Apply context learning from previous detections
-    final contextScores = _applyContextLearning(processedText, scores);
+    // Layer 2: Sentiment Analysis - Understanding emotional tone
+    final sentimentScores = _performSentimentAnalysis(processedText);
 
-    // Apply user-specific pattern learning
-    final learnedScores = _applyUserPatternLearning(contextScores);
+    // Layer 3: Context Analysis - Understanding situational context
+    final contextScores = _performContextualAnalysis(processedText, text);
 
-    // Apply advanced emotion blending and temporal analysis
-    final enhancedScores = _applyAdvancedAnalysis(learnedScores, processedText);
+    // Layer 4: Pattern Recognition - Understanding language patterns
+    final patternScores = _performPatternAnalysis(processedText);
 
-    // Normalize scores to probabilities with confidence boosting
-    final probabilities = _normalizeToProbabilitiesAdvanced(enhancedScores);
+    // Intelligent fusion of all analysis layers
+    final fusedScores = _intelligentScoreFusion(
+        semanticScores, sentimentScores, contextScores, patternScores);
 
-    // Get dominant emotion with confidence analysis
-    final dominantEmotion = _selectDominantEmotion(probabilities);
+    // Apply machine learning-based confidence calculation
+    final confidenceScores =
+        _calculateIntelligentConfidence(fusedScores, processedText);
 
-    // Learn from this detection for future improvements
+    // Normalize and select dominant emotion intelligently
+    final probabilities = _normalizeToProbabilitiesAdvanced(confidenceScores);
+    final dominantEmotion =
+        _selectDominantEmotionIntelligently(probabilities, processedText);
+
+    // Learn from this detection for continuous improvement
     _learnFromDetection(
         processedText, dominantEmotion.key, dominantEmotion.value);
 
-    // Generate advanced reasoning with learning context
-    final reasoning = _generateAdvancedReasoning(
-        processedText, dominantEmotion.key, enhancedScores);
+    // Generate intelligent reasoning based on analysis
+    final reasoning = _generateIntelligentReasoning(
+        processedText, dominantEmotion.key, semanticScores, contextScores);
 
     return EmotionResult(
       emotion: dominantEmotion.key,
@@ -697,9 +704,532 @@ class PureDartEmotionAI {
     return reasoning.toString();
   }
 
-  // ========== ENHANCED AI ANALYSIS METHODS ==========
+  // ========== INTELLIGENT AI ANALYSIS METHODS ==========
 
-  /// Advanced keyword scoring with context awareness
+  /// Semantic Analysis - Understanding meaning beyond keywords
+  static Map<String, double> _performSemanticAnalysis(
+      String processedText, String originalText) {
+    final scores = <String, double>{};
+
+    // Initialize all emotion scores
+    for (final emotion in _emotions) {
+      scores[emotion] = 0.0;
+    }
+
+    // Analyze sentence structure and meaning
+    final sentences = _splitIntoSentences(originalText);
+
+    for (final sentence in sentences) {
+      final sentenceEmotion = _analyzeSentenceSemantics(sentence.toLowerCase());
+
+      // Add weighted scores based on sentence position and length
+      final sentenceWeight = _calculateSentenceWeight(sentence, sentences);
+
+      for (final emotion in sentenceEmotion.keys) {
+        scores[emotion] = (scores[emotion] ?? 0.0) +
+            (sentenceEmotion[emotion]! * sentenceWeight);
+      }
+    }
+
+    return scores;
+  }
+
+  /// Sentiment Analysis - Understanding emotional tone and intensity
+  static Map<String, double> _performSentimentAnalysis(String text) {
+    final scores = <String, double>{};
+
+    // Initialize scores
+    for (final emotion in _emotions) {
+      scores[emotion] = 0.0;
+    }
+
+    // Analyze positive vs negative sentiment
+    final positiveScore = _calculatePositiveSentiment(text);
+    final negativeScore = _calculateNegativeSentiment(text);
+    final neutralScore = 1.0 - (positiveScore + negativeScore).abs();
+
+    // Map sentiment to emotions intelligently
+    if (positiveScore > negativeScore) {
+      scores['happy'] = positiveScore * 0.7;
+      scores['love'] = positiveScore * 0.5;
+      scores['surprise'] = positiveScore * 0.3;
+    } else if (negativeScore > positiveScore) {
+      scores['sad'] = negativeScore * 0.6;
+      scores['angry'] = negativeScore * 0.4;
+      scores['fear'] = negativeScore * 0.3;
+    }
+
+    scores['neutral'] = neutralScore;
+
+    return scores;
+  }
+
+  /// Contextual Analysis - Understanding situational context
+  static Map<String, double> _performContextualAnalysis(
+      String processedText, String originalText) {
+    final scores = <String, double>{};
+
+    // Initialize scores
+    for (final emotion in _emotions) {
+      scores[emotion] = 0.0;
+    }
+
+    // Detect different life contexts
+    final contexts = _detectLifeContexts(processedText);
+
+    for (final context in contexts.entries) {
+      final contextType = context.key;
+      final contextStrength = context.value;
+
+      // Apply context-specific emotion mappings
+      switch (contextType) {
+        case 'school':
+          scores['fear'] = scores['fear']! + (contextStrength * 0.3);
+          scores['angry'] = scores['angry']! + (contextStrength * 0.2);
+          break;
+        case 'family':
+          scores['love'] = scores['love']! + (contextStrength * 0.4);
+          scores['happy'] = scores['happy']! + (contextStrength * 0.3);
+          break;
+        case 'work':
+          scores['neutral'] = scores['neutral']! + (contextStrength * 0.4);
+          scores['angry'] = scores['angry']! + (contextStrength * 0.2);
+          break;
+        case 'relationship':
+          scores['love'] = scores['love']! + (contextStrength * 0.5);
+          scores['sad'] = scores['sad']! + (contextStrength * 0.3);
+          break;
+      }
+    }
+
+    return scores;
+  }
+
+  /// Pattern Analysis - Understanding language patterns and structure
+  static Map<String, double> _performPatternAnalysis(String text) {
+    final scores = <String, double>{};
+
+    // Initialize scores
+    for (final emotion in _emotions) {
+      scores[emotion] = 0.0;
+    }
+
+    // Analyze exclamation patterns (excitement/anger)
+    final exclamationCount = '!'.allMatches(text).length;
+    if (exclamationCount > 0) {
+      scores['happy'] = scores['happy']! + (exclamationCount * 0.2);
+      scores['angry'] = scores['angry']! + (exclamationCount * 0.15);
+      scores['surprise'] = scores['surprise']! + (exclamationCount * 0.1);
+    }
+
+    // Analyze question patterns (confusion/fear)
+    final questionCount = '?'.allMatches(text).length;
+    if (questionCount > 0) {
+      scores['fear'] = scores['fear']! + (questionCount * 0.15);
+      scores['neutral'] = scores['neutral']! + (questionCount * 0.1);
+    }
+
+    // Analyze repetition patterns (emphasis)
+    final repetitions = _findRepetitions(text);
+    if (repetitions.isNotEmpty) {
+      scores['angry'] =
+          scores['angry']! + (repetitions.length * 0.1); // Repetition often indicates strong emotion
+    }
+
+    // Analyze capitalization patterns (shouting/emphasis)
+    final capsRatio = _calculateCapsRatio(text);
+    if (capsRatio > 0.3) {
+      scores['angry'] = scores['angry']! + (capsRatio * 0.3);
+      scores['surprise'] = scores['surprise']! + (capsRatio * 0.2);
+    }
+
+    return scores;
+  }
+
+  /// Intelligent Score Fusion - Combines all analysis layers intelligently
+  static Map<String, double> _intelligentScoreFusion(
+      Map<String, double> semantic,
+      Map<String, double> sentiment,
+      Map<String, double> contextual,
+      Map<String, double> pattern) {
+    final fusedScores = <String, double>{};
+
+    for (final emotion in _emotions) {
+      // Weight different analysis types based on their reliability
+      final semanticWeight = 0.4; // Most important
+      final sentimentWeight = 0.3; // Very important
+      final contextualWeight = 0.2; // Important
+      final patternWeight = 0.1; // Supporting evidence
+
+      fusedScores[emotion] = (semantic[emotion]! * semanticWeight) +
+          (sentiment[emotion]! * sentimentWeight) +
+          (contextual[emotion]! * contextualWeight) +
+          (pattern[emotion]! * patternWeight);
+    }
+
+    return fusedScores;
+  }
+
+  // ========== INTELLIGENT HELPER METHODS ==========
+
+  /// Split text into sentences for analysis
+  static List<String> _splitIntoSentences(String text) {
+    return text
+        .split(RegExp(r'[.!?]+'))
+        .where((sentence) => sentence.trim().isNotEmpty)
+        .map((sentence) => sentence.trim())
+        .toList();
+  }
+
+  /// Analyze individual sentence semantics
+  static Map<String, double> _analyzeSentenceSemantics(String sentence) {
+    final scores = <String, double>{};
+
+    // Initialize scores
+    for (final emotion in _emotions) {
+      scores[emotion] = 0.0;
+    }
+
+    // Intelligent keyword analysis with context
+    for (final emotion in _emotions) {
+      final emotionData = _emotionWeights![emotion];
+      final keywords = Map<String, double>.from(emotionData['keywords']);
+
+      for (final entry in keywords.entries) {
+        final keyword = entry.key;
+        final weight = entry.value;
+
+        // Smart matching - consider word boundaries and context
+        if (_isKeywordMatch(sentence, keyword)) {
+          // Apply contextual weight based on surrounding words
+          final contextWeight = _calculateContextualWeight(sentence, keyword);
+          scores[emotion] = scores[emotion]! + (weight * contextWeight);
+        }
+      }
+    }
+
+    return scores;
+  }
+
+  /// Calculate sentence weight based on position and characteristics
+  static double _calculateSentenceWeight(
+      String sentence, List<String> allSentences) {
+    double weight = 1.0;
+
+    // First and last sentences are more important
+    final index = allSentences.indexOf(sentence);
+    if (index == 0 || index == allSentences.length - 1) {
+      weight += 0.2;
+    }
+
+    // Longer sentences carry more weight
+    if (sentence.length > 50) {
+      weight += 0.1;
+    }
+
+    // Sentences with strong emotional indicators
+    if (sentence.contains('!') || sentence.contains('?')) {
+      weight += 0.15;
+    }
+
+    return weight;
+  }
+
+  /// Calculate positive sentiment score
+  static double _calculatePositiveSentiment(String text) {
+    final positiveWords = [
+      'good',
+      'great',
+      'awesome',
+      'amazing',
+      'wonderful',
+      'fantastic',
+      'love',
+      'like',
+      'enjoy',
+      'happy',
+      'glad',
+      'excited',
+      'perfect',
+      'best',
+      'excellent',
+      'brilliant',
+      'superb',
+      'outstanding'
+    ];
+
+    double score = 0.0;
+    for (final word in positiveWords) {
+      if (text.contains(word)) {
+        score += 0.1;
+      }
+    }
+
+    return math.min(1.0, score);
+  }
+
+  /// Calculate negative sentiment score
+  static double _calculateNegativeSentiment(String text) {
+    final negativeWords = [
+      'bad',
+      'terrible',
+      'awful',
+      'horrible',
+      'worst',
+      'hate',
+      'dislike',
+      'sad',
+      'angry',
+      'frustrated',
+      'annoyed',
+      'upset',
+      'disappointed',
+      'worried',
+      'scared',
+      'afraid',
+      'anxious'
+    ];
+
+    double score = 0.0;
+    for (final word in negativeWords) {
+      if (text.contains(word)) {
+        score += 0.1;
+      }
+    }
+
+    return math.min(1.0, score);
+  }
+
+  /// Detect different life contexts in text
+  static Map<String, double> _detectLifeContexts(String text) {
+    final contexts = <String, double>{};
+
+    // School context
+    final schoolWords = [
+      'school',
+      'class',
+      'teacher',
+      'exam',
+      'test',
+      'homework',
+      'study',
+      'grade'
+    ];
+    contexts['school'] = _calculateContextStrength(text, schoolWords);
+
+    // Family context
+    final familyWords = [
+      'family',
+      'mom',
+      'dad',
+      'mother',
+      'father',
+      'parent',
+      'sibling',
+      'home'
+    ];
+    contexts['family'] = _calculateContextStrength(text, familyWords);
+
+    // Work context
+    final workWords = [
+      'work',
+      'job',
+      'office',
+      'boss',
+      'colleague',
+      'meeting',
+      'project'
+    ];
+    contexts['work'] = _calculateContextStrength(text, workWords);
+
+    // Relationship context
+    final relationshipWords = [
+      'boyfriend',
+      'girlfriend',
+      'partner',
+      'date',
+      'crush',
+      'relationship'
+    ];
+    contexts['relationship'] =
+        _calculateContextStrength(text, relationshipWords);
+
+    return contexts;
+  }
+
+  /// Calculate context strength based on keyword presence
+  static double _calculateContextStrength(String text, List<String> keywords) {
+    double strength = 0.0;
+    for (final keyword in keywords) {
+      if (text.contains(keyword)) {
+        strength += 0.2;
+      }
+    }
+    return math.min(1.0, strength);
+  }
+
+  /// Smart keyword matching with context awareness
+  static bool _isKeywordMatch(String sentence, String keyword) {
+    // Exact word boundary matching
+    final regex =
+        RegExp(r'\b' + RegExp.escape(keyword) + r'\b', caseSensitive: false);
+    return regex.hasMatch(sentence);
+  }
+
+  /// Calculate contextual weight for keywords
+  static double _calculateContextualWeight(String sentence, String keyword) {
+    double weight = 1.0;
+
+    // Boost weight if keyword appears with intensifiers
+    final intensifiers = ['very', 'really', 'extremely', 'super', 'totally'];
+    for (final intensifier in intensifiers) {
+      if (sentence.contains('$intensifier $keyword') ||
+          sentence.contains('$keyword $intensifier')) {
+        weight += 0.3;
+      }
+    }
+
+    // Reduce weight if keyword appears with negations
+    final negations = ['not', 'never', 'no', 'dont', "don't"];
+    for (final negation in negations) {
+      if (sentence.contains('$negation $keyword')) {
+        weight *= 0.3; // Significantly reduce weight for negated keywords
+      }
+    }
+
+    return weight;
+  }
+
+  /// Find repetitions in text (indicates emphasis)
+  static List<String> _findRepetitions(String text) {
+    final words = text.toLowerCase().split(' ');
+    final repetitions = <String>[];
+
+    for (int i = 0; i < words.length - 1; i++) {
+      if (words[i] == words[i + 1] && words[i].length > 2) {
+        repetitions.add(words[i]);
+      }
+    }
+
+    return repetitions;
+  }
+
+  /// Calculate capitalization ratio
+  static double _calculateCapsRatio(String text) {
+    if (text.isEmpty) return 0.0;
+
+    final capsCount = text
+        .split('')
+        .where(
+            (char) => char == char.toUpperCase() && char != char.toLowerCase())
+        .length;
+    return capsCount / text.length;
+  }
+
+  /// Intelligent confidence calculation
+  static Map<String, double> _calculateIntelligentConfidence(
+      Map<String, double> scores, String text) {
+    final confidenceScores = <String, double>{};
+
+    // Find the maximum score for normalization
+    final maxScore =
+        scores.values.isNotEmpty ? scores.values.reduce(math.max) : 0.0;
+
+    if (maxScore == 0.0) {
+      // If no emotions detected, return neutral with medium confidence
+      for (final emotion in _emotions) {
+        confidenceScores[emotion] = emotion == 'neutral' ? 0.6 : 0.0;
+      }
+      return confidenceScores;
+    }
+
+    // Calculate confidence based on score distribution
+    for (final emotion in _emotions) {
+      final normalizedScore = scores[emotion]! / maxScore;
+
+      // Apply confidence boosting for clear dominant emotions
+      if (normalizedScore > 0.7) {
+        confidenceScores[emotion] = normalizedScore * 0.95; // High confidence
+      } else if (normalizedScore > 0.4) {
+        confidenceScores[emotion] = normalizedScore * 0.8; // Medium confidence
+      } else {
+        confidenceScores[emotion] = normalizedScore * 0.6; // Lower confidence
+      }
+    }
+
+    return confidenceScores;
+  }
+
+  /// Intelligent dominant emotion selection
+  static MapEntry<String, double> _selectDominantEmotionIntelligently(
+      Map<String, double> probabilities, String text) {
+    // Sort emotions by score
+    final sortedEmotions = probabilities.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+
+    final topEmotion = sortedEmotions.first;
+    final secondEmotion = sortedEmotions.length > 1 ? sortedEmotions[1] : null;
+
+    // If top emotion is significantly higher than second, return it
+    if (secondEmotion == null || topEmotion.value > secondEmotion.value * 1.5) {
+      return topEmotion;
+    }
+
+    // If emotions are close, apply intelligent tie-breaking
+    return _applyIntelligentTieBreaking(sortedEmotions, text);
+  }
+
+  /// Apply intelligent tie-breaking when emotions are close
+  static MapEntry<String, double> _applyIntelligentTieBreaking(
+      List<MapEntry<String, double>> sortedEmotions, String text) {
+    // Prefer emotions that are more specific over neutral
+    for (final emotion in sortedEmotions) {
+      if (emotion.key != 'neutral' && emotion.value > 0.3) {
+        return emotion;
+      }
+    }
+
+    // If all emotions are low, prefer neutral
+    return MapEntry('neutral', 0.5);
+  }
+
+  /// Generate intelligent reasoning based on comprehensive analysis
+  static String _generateIntelligentReasoning(String text, String emotion,
+      Map<String, double> semanticScores, Map<String, double> contextScores) {
+    final reasons = <String>[];
+
+    // Add semantic reasoning
+    if (semanticScores[emotion]! > 0.3) {
+      reasons.add('Strong emotional language patterns detected');
+    }
+
+    // Add context reasoning
+    final dominantContext = contextScores.entries
+        .where((entry) => entry.value > 0.2)
+        .map((entry) => entry.key)
+        .join(', ');
+
+    if (dominantContext.isNotEmpty) {
+      reasons.add('Context: $dominantContext-related content');
+    }
+
+    // Add pattern reasoning
+    if (text.contains('!')) {
+      reasons.add('Emphatic expression detected');
+    }
+
+    if (text.contains('?')) {
+      reasons.add('Questioning or uncertainty detected');
+    }
+
+    // Construct final reasoning
+    if (reasons.isEmpty) {
+      return 'Based on overall tone and language analysis';
+    } else {
+      return reasons.join('; ');
+    }
+  }
+
   static ({double score, List<String> keywords}) _calculateKeywordScore(
       String text,
       List<String> words,

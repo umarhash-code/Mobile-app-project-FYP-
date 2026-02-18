@@ -856,10 +856,10 @@ class PureDartEmotionAI {
 
     for (final emotion in _emotions) {
       // Weight different analysis types based on their reliability
-      final semanticWeight = 0.4; // Most important
-      final sentimentWeight = 0.3; // Very important
-      final contextualWeight = 0.2; // Important
-      final patternWeight = 0.1; // Supporting evidence
+      const semanticWeight = 0.4; // Most important
+      const sentimentWeight = 0.3; // Very important
+      const contextualWeight = 0.2; // Important
+      const patternWeight = 0.1; // Supporting evidence
 
       fusedScores[emotion] = (semantic[emotion]! * semanticWeight) +
           (sentiment[emotion]! * sentimentWeight) +
@@ -1190,7 +1190,7 @@ class PureDartEmotionAI {
     }
 
     // If all emotions are low, prefer neutral
-    return MapEntry('neutral', 0.5);
+    return const MapEntry('neutral', 0.5);
   }
 
   /// Generate intelligent reasoning based on comprehensive analysis
